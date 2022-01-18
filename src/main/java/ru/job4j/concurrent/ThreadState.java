@@ -20,5 +20,4 @@ public class ThreadState {
         }
         System.out.println("Работа завершена");
     }
-
 }
