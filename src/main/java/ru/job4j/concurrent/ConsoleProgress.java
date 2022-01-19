@@ -1,6 +1,6 @@
 package ru.job4j.concurrent;
 
-public class ConsoleProgress implements Runnable{
+public class ConsoleProgress implements Runnable {
     @Override
     public void run() {
         int i = 0;
@@ -21,15 +21,16 @@ public class ConsoleProgress implements Runnable{
         }
     }
 
-    public String symbol (int i) {
+    public String symbol(int i) {
         String str = null;
-        switch (i){
+        switch (i) {
             case 1 : str = "\\";
             break;
             case 2: str = "|";
             break;
             case 3: str = "/";
             break;
+            default: break;
         }
         return str;
     }
