@@ -11,11 +11,10 @@ public class ConsoleProgress implements Runnable {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            if (i == 3) {
+            System.out.print("\r load: " + "..." + symbol[i++]);
+            if (i == symbol.length) {
                 i = 0;
             }
-            System.out.print("\r load: " + "..." + symbol[i]);
-            i++;
         }
     }
 
