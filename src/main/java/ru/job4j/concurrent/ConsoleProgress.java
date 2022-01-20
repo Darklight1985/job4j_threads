@@ -4,7 +4,7 @@ public class ConsoleProgress implements Runnable {
     @Override
     public void run() {
         int i = 0;
-        String str;
+        char[] symbol = new char[] {'\\', '|', '/'};
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Thread.sleep(500);
@@ -12,27 +12,12 @@ public class ConsoleProgress implements Runnable {
                 e.printStackTrace();
                 Thread.currentThread().interrupt();
             }
-            i++;
-            if (i == 4) {
-                i = 1;
+            if (i == 3) {
+                i = 0;
             }
-            str = symbol(i);
-            System.out.print("\r load: " + "..." + str);
+            System.out.print("\r load: " + "..." + symbol[i]);
+            i++;
         }
-    }
-
-    public String symbol(int i) {
-        String str = null;
-        switch (i) {
-            case 1 : str = "\\";
-            break;
-            case 2: str = "|";
-            break;
-            case 3: str = "/";
-            break;
-            default: break;
-        }
-        return str;
     }
 
     public static void main(String[] args) throws InterruptedException {
