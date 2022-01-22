@@ -13,7 +13,6 @@ public class Node<T> {
         return next;
     }
 
-
     public T getValue() {
         return value;
     }
