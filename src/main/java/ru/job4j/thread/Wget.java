@@ -30,7 +30,8 @@ public class Wget implements Runnable {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
                 if (bytesWrited >= speed) {
                     long elapsed = Duration.between(start, Instant.now()).toMillis();
-                    System.out.println("Скачано " + bytesWrited + " байт за " + elapsed + " миллисекунд");
+                    System.out.println("Скачано " + bytesWrited
+                            + " байт за " + elapsed + " миллисекунд");
                     if (elapsed < 1000) {
                         System.out.println("Need pause in " + (1000 - elapsed) + " ms");
                         Thread.sleep(1000 - elapsed);
