@@ -14,7 +14,8 @@ public final class WorkWithContent implements ContentStore {
     public String getContent() throws IOException {
         String output = "";
         int data;
-        try (BufferedInputStream buff= new BufferedInputStream(new FileInputStream(parseFile.getFile()))) {
+        try (BufferedInputStream buff =
+                     new BufferedInputStream(new FileInputStream(parseFile.getFile()))) {
             while ((data = buff.read()) > 0) {
                 output += (char) data;
             }
@@ -26,7 +27,8 @@ public final class WorkWithContent implements ContentStore {
     public String getContentWithoutUnicode(Predicate<Integer> filter) throws IOException {
         String output = "";
         int data;
-        try (BufferedInputStream buff= new BufferedInputStream(new FileInputStream(parseFile.getFile()))) {
+        try (BufferedInputStream buff =
+                     new BufferedInputStream(new FileInputStream(parseFile.getFile()))) {
             while ((data = buff.read()) > 0) {
                 if (filter.test(data)) {
                     output += (char) data;
@@ -38,7 +40,8 @@ public final class WorkWithContent implements ContentStore {
 
     @Override
     public void saveContent(String content) throws IOException {
-        try (BufferedOutputStream buff = new BufferedOutputStream(new FileOutputStream(parseFile.getFile()))) {
+        try (BufferedOutputStream buff =
+                     new BufferedOutputStream(new FileOutputStream(parseFile.getFile()))) {
             for (int i = 0; i < content.length(); i += 1) {
                 buff.write(content.charAt(i));
             }
