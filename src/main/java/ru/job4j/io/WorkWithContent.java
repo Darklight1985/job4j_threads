@@ -10,7 +10,6 @@ public final class WorkWithContent implements ContentStore {
         this.parseFile = parseFile;
     }
 
-
     @Override
     public String getContent() {
         Predicate<Character> filter = s -> s == s;

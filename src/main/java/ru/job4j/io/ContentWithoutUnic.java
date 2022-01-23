@@ -3,7 +3,7 @@ package ru.job4j.io;
 import java.io.*;
 import java.util.function.Predicate;
 
-public class ContentWithoutUnic implements ContentStore{
+public class ContentWithoutUnic implements ContentStore {
     private final ParseFile parseFile;
 
     public ContentWithoutUnic(ParseFile parseFile) {
@@ -31,7 +31,6 @@ public class ContentWithoutUnic implements ContentStore{
         Predicate<Character> filter = s -> s < 0x80;
         return workContent(filter);
     }
-
 
     @Override
     public void saveContent(String content) throws IOException {
