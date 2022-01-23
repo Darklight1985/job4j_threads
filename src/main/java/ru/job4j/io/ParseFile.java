@@ -11,17 +11,4 @@ public final class ParseFile {
     public File getFile() {
         return new File(file.getName());
     }
-
-    public String getContentWithoutUnicode() throws IOException {
-        String output = "";
-        int data;
-        try (BufferedInputStream buff = new BufferedInputStream(new FileInputStream(file))) {
-            while ((data = buff.read()) > 0) {
-                if (data < 0x80) {
-                    output += (char) data;
-                }
-            }
-        }
-        return output;
-    }
 }
