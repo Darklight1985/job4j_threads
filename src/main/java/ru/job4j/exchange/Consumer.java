@@ -1,7 +1,7 @@
 package ru.job4j.exchange;
 
-public class Consumer implements Runnable{
-    Q q;
+public class Consumer implements Runnable {
+    private Q q;
 
     Consumer(Q q) {
         this.q = q;

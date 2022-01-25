@@ -1,7 +1,7 @@
 package ru.job4j.exchange;
 
-public class Producer implements Runnable{
-    Q q;
+public class Producer implements Runnable {
+   private Q q;
 
     Producer(Q q) {
         this.q = q;
