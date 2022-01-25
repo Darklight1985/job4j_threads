@@ -5,6 +5,4 @@ import java.util.function.Predicate;
 
 public interface ContentStore {
     public String getContent() throws IOException;
-
-    public void saveContent(String content) throws IOException;
 }

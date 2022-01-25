@@ -17,28 +17,18 @@ public final class WorkWithContent implements ContentStore {
     }
 
     public String workContent(Predicate<Character> filter) {
-        String output = "";
+        StringBuilder output = new StringBuilder();
         int data;
         try (BufferedInputStream buff =
                      new BufferedInputStream(new FileInputStream(parseFile.getFile()))) {
             while ((data = buff.read()) > 0) {
                 if (filter.test((char) data)) {
-                    output += data;
+                    output.append(data);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return output;
-    }
-
-    @Override
-    public void saveContent(String content) throws IOException {
-        try (BufferedOutputStream buff =
-                     new BufferedOutputStream(new FileOutputStream(parseFile.getFile()))) {
-            for (int i = 0; i < content.length(); i += 1) {
-                buff.write(content.charAt(i));
-            }
-        }
+        return output.toString();
     }
 }
