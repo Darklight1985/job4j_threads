@@ -11,7 +11,12 @@ public class SimpleBlockinqQueueTest {
         SimpleBlockinqQueue simpleBlockinqQueue = new SimpleBlockinqQueue();
         ProducerQueue<Integer> producer = new ProducerQueue<>(simpleBlockinqQueue, 5);
         ConsumerQueue<Integer> consumer = new ConsumerQueue<>(simpleBlockinqQueue);
-        assertEquals(simpleBlockinqQueue.findAll().size(), 1);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(simpleBlockinqQueue.findAll().size(), 0);
     }
 
     @Test
