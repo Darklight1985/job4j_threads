@@ -3,21 +3,25 @@ package ru.job4j.storage;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.nonNull;
 
 @ThreadSafe
 public final class UserStorage {
     @GuardedBy("this")
-    private final List<User> list;
+    private final Map<Integer, User> map;
 
-    public UserStorage(List<User> list) {
-        this.list = list;
+    public UserStorage(Map<Integer, User> map) {
+        this.map = map;
     }
 
     public synchronized boolean add(User user) {
-       return list.add(new User(user.getId(), user.getAmount()));
+        boolean rsl = map.containsValue(user);
+       if (!rsl) {
+           map.put(user.getId(), new User(user.getId(), user.getAmount()));
+       }
+       return rsl;
     }
 
     public synchronized boolean update(User user) {
@@ -31,13 +35,13 @@ public final class UserStorage {
     }
 
     public synchronized boolean delete(User user) {
-        return list.remove(user);
+        return map.remove(user.getId(), user);
     }
 
     public synchronized boolean transfer(int fromid, int told, int amount) {
         boolean rsl = false;
-        User source = list.get(fromid);
-        User target = list.get(told);
+        User source = map.get(fromid);
+        User target = map.get(told);
         if (nonNull(source) && nonNull(target)) {
             if (amount > source.getAmount()) {
           if (update(new User(source.getId(), source.getAmount() - amount))
