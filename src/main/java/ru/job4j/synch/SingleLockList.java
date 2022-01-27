@@ -23,10 +23,8 @@ public class SingleLockList<T> implements Iterable<T> {
         return list.get(index);
     }
 
-    public synchronized List copy(List<T> list) {
-        List<T> tList = new ArrayList<>(list);
-        Collections.copy(tList, list);
-        return tList;
+    public synchronized List<T> copy(List<T> list) {
+       return new ArrayList<>(list);
     }
 
     @Override
