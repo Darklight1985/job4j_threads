@@ -5,34 +5,30 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class SimpleBlockinqQueue<T> {
-   private boolean valueSet = true;
+   private int valueSet;
    private Queue<T> queue = new LinkedList<>();
 
-   public synchronized T poll() {
-        while (valueSet) {
-            try {
+    public SimpleBlockinqQueue(int valueSet) {
+        this.valueSet = valueSet;
+    }
+
+    public synchronized T poll() throws InterruptedException {
+        while (valueSet > 0) {
                 wait();
-            } catch (InterruptedException e) {
-                System.out.println("Исключение типа InterruptedException перехвачено");
-            }
         }
         T value = queue.poll();
         System.out.println(" Пoлyчeнo : " + value);
-        valueSet = true;
+        valueSet++;
         notify();
         return value;
     }
 
-     public synchronized void offer(T value) {
-          while (!valueSet) {
-              try {
+     public synchronized void offer(T value) throws InterruptedException {
+          while (valueSet == 0) {
                   wait();
-              } catch (InterruptedException e) {
-                  System.out.println("Исключение типа InterruptedException перехвачено");
-              }
           }
           queue.offer(value);
-              valueSet = false;
+              valueSet--;
           System.out.println("Отправлено : " + value);
           notify();
       }

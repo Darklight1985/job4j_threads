@@ -8,7 +8,7 @@ public class SimpleBlockinqQueueTest {
 
     @Test
     public void queueWork() {
-        SimpleBlockinqQueue simpleBlockinqQueue = new SimpleBlockinqQueue();
+        SimpleBlockinqQueue simpleBlockinqQueue = new SimpleBlockinqQueue(1);
         ProducerQueue<Integer> producer = new ProducerQueue<>(simpleBlockinqQueue, 5);
         ConsumerQueue<Integer> consumer = new ConsumerQueue<>(simpleBlockinqQueue);
         try {
@@ -21,7 +21,7 @@ public class SimpleBlockinqQueueTest {
 
     @Test
     public void add() {
-        SimpleBlockinqQueue simpleBlockinqQueue = new SimpleBlockinqQueue();
+        SimpleBlockinqQueue simpleBlockinqQueue = new SimpleBlockinqQueue(1);
         ProducerQueue<Integer> producer = new ProducerQueue<>(simpleBlockinqQueue, 5);
         try {
             Thread.sleep(500);

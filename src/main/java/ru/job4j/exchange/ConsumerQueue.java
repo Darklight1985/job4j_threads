@@ -13,7 +13,11 @@ public class ConsumerQueue<T> implements Runnable {
 
     @Override
     public void run() {
-           this.value = queue.poll();
-        System.out.println("Потребитель забрал " + value);
+            try {
+                this.value = queue.poll();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Потребитель забрал " + value);
     }
 }
