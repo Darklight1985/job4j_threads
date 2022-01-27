@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class SimpleBlockinqQueue<T> {
-   private int valueSet;
+   private final int valueSet;
    private Queue<T> queue = new LinkedList<>();
 
     public SimpleBlockinqQueue(int valueSet) {
@@ -13,22 +13,20 @@ public class SimpleBlockinqQueue<T> {
     }
 
     public synchronized T poll() throws InterruptedException {
-        while (valueSet > 0) {
+        while (queue.isEmpty()) {
                 wait();
         }
         T value = queue.poll();
         System.out.println(" Пoлyчeнo : " + value);
-        valueSet++;
         notify();
         return value;
     }
 
      public synchronized void offer(T value) throws InterruptedException {
-          while (valueSet == 0) {
+          while (queue.size() == valueSet) {
                   wait();
           }
           queue.offer(value);
-              valueSet--;
           System.out.println("Отправлено : " + value);
           notify();
       }
