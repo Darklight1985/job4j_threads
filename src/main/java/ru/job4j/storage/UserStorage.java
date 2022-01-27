@@ -21,7 +21,7 @@ public final class UserStorage {
     }
 
     public synchronized boolean update(User user) {
-          return map.replace(user.getId(), user) == user;
+          return map.replace(user.getId(), user) != null;
     }
 
     public synchronized boolean delete(User user) {
@@ -32,13 +32,11 @@ public final class UserStorage {
         boolean rsl = false;
         User source = map.get(fromid);
         User target = map.get(told);
-        if (nonNull(source) && nonNull(target)) {
-            if (amount >= source.getAmount()) {
+        if (nonNull(source) && nonNull(target) && amount >= source.getAmount()) {
           source.setAmount(source.getAmount() - amount);
                   target.setAmount(target.getAmount() + amount);
               rsl = true;
           }
-            }
         return rsl;
     }
 }
