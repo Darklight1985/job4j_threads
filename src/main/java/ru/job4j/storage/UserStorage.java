@@ -17,21 +17,11 @@ public final class UserStorage {
     }
 
     public synchronized boolean add(User user) {
-        boolean rsl = map.containsValue(user);
-       if (!rsl) {
-           map.putIfAbsent(user.getId(), new User(user.getId(), user.getAmount()));
-       }
-       return rsl;
+        return map.putIfAbsent(user.getId(), user) == null;
     }
 
     public synchronized boolean update(User user) {
-        boolean rsl = false;
-      int id = user.getId();
-      int amount = user.getAmount();
-      if (map.containsKey(id)) {
-          rsl = map.replace(user.getId(), user, new User(id, amount));
-      }
-      return rsl;
+          return map.replace(user.getId(), user) == user;
     }
 
     public synchronized boolean delete(User user) {
@@ -43,13 +33,12 @@ public final class UserStorage {
         User source = map.get(fromid);
         User target = map.get(told);
         if (nonNull(source) && nonNull(target)) {
-            if (amount > source.getAmount()) {
-          if (update(new User(source.getId(), source.getAmount() - amount))
-                  || update(new User(target.getId(), target.getAmount() + amount))) {
+            if (amount >= source.getAmount()) {
+          source.setAmount(source.getAmount() - amount);
+                  target.setAmount(target.getAmount() + amount);
               rsl = true;
           }
             }
-        }
         return rsl;
     }
 }
