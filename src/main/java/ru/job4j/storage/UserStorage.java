@@ -19,7 +19,7 @@ public final class UserStorage {
     public synchronized boolean add(User user) {
         boolean rsl = map.containsValue(user);
        if (!rsl) {
-           map.put(user.getId(), new User(user.getId(), user.getAmount()));
+           map.putIfAbsent(user.getId(), new User(user.getId(), user.getAmount()));
        }
        return rsl;
     }
@@ -28,8 +28,8 @@ public final class UserStorage {
         boolean rsl = false;
       int id = user.getId();
       int amount = user.getAmount();
-      if (delete(user)) {
-          rsl = add(new User(id, amount));
+      if (map.containsKey(id)) {
+          rsl = map.replace(user.getId(), user, new User(id, amount));
       }
       return rsl;
     }
