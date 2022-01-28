@@ -12,7 +12,11 @@ public class ProducerQueue<T> implements Runnable {
 
     @Override
     public void run() {
-                queue.offer(value);
-            System.out.println("Поставщик отдал " + value);
+        try {
+            queue.offer(value);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Поставщик отдал " + value);
     }
 }

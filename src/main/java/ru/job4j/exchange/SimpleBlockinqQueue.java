@@ -22,13 +22,9 @@ public class SimpleBlockinqQueue<T> {
         return value;
     }
 
-     public synchronized void offer(T value) {
+     public synchronized void offer(T value) throws InterruptedException {
           while (queue.size() == valueSet) {
-              try {
                   wait();
-              } catch (InterruptedException e) {
-                  e.printStackTrace();
-              }
           }
           queue.offer(value);
           System.out.println("Отправлено : " + value);

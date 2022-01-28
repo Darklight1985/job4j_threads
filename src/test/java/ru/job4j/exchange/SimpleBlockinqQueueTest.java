@@ -46,9 +46,13 @@ public class SimpleBlockinqQueueTest {
         final SimpleBlockinqQueue<Integer> queue = new SimpleBlockinqQueue<>(15);
         Thread producer = new Thread(
                 () -> {
-                    IntStream.range(0, 5).forEach(
-                            queue::offer
-                    );
+                    for (int i = 0; i < 5; i++) {
+                        try {
+                            queue.offer(i);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
         );
         producer.start();
