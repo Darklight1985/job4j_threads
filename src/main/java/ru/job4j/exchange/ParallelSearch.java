@@ -23,7 +23,7 @@ public class ParallelSearch {
                             System.out.println(consumer.getState());
                             try {
                                 queue.offer(index);
-                                if (consumer.getState() == Thread.State.WAITING
+                                if (!consumer.isInterrupted()
                                 && queue.findAll().size() == index) {
                                     Thread.currentThread().interrupt();
                                 }
