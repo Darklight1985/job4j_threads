@@ -6,33 +6,39 @@ public class ParallelSearch {
         SimpleBlockinqQueue<Integer> queue = new SimpleBlockinqQueue<Integer>(5);
         final Thread consumer = new Thread(
                 () -> {
-                    while (true) {
+                    while (!Thread.currentThread().isInterrupted()) {
                         try {
                             System.out.println(queue.poll());
+                            System.out.println("Нить работает");
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }
                 }
         );
         consumer.start();
-        new Thread(
+        final Thread producer = new Thread(
                 () -> {
                         for (int index = 0; index != 3; index++) {
-                            System.out.println(consumer.getState());
                             try {
                                 queue.offer(index);
-                                if (!consumer.isInterrupted()
-                                && queue.findAll().size() == index) {
-                                    Thread.currentThread().interrupt();
-                                }
                                 Thread.sleep(500);
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                Thread.currentThread().interrupt();
                             }
-                        }
                     }
-        ).start();
+                    }
+        );
+        producer.start();
+        try {
+           producer.join();
+           if (queue.findAll().size() == 0) {
+               consumer.interrupt();
+          }
+           consumer.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+     }
     }
-}
+
