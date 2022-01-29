@@ -9,7 +9,7 @@ public class CASCount {
 
     public void increment() {
         Integer ref;
-        Integer temp = null;
+        Integer temp;
         do {
             ref = count.get();
             temp = ref++;
