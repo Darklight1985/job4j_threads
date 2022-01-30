@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class CASCountTest {
 
     @Test
-    public void Increment(){
+    public void increment(){
         CASCount count = new CASCount();
         count.increment();
         assertEquals(count.get(), 1);
