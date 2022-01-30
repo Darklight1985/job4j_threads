@@ -5,8 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CacheTest {
-
-
     @Test
     public void addInCahe() {
         Cache cache = new Cache();
