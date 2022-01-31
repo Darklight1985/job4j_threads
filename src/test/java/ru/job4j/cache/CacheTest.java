@@ -16,7 +16,7 @@ public class CacheTest {
         Cache cache = new Cache();
         cache.add(new Base(1, 1));
         cache.add(new Base(2, 2));
-        Base base = new Base(1, 3);
+        Base base = new Base(1, 1);
        assertTrue(cache.update(base));
     }
 
