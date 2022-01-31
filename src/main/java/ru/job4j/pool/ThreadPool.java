@@ -23,14 +23,11 @@ public class ThreadPool {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-     notifyAll();
     }
 
     public void shutdown() {
 for (Thread thread: threads) {
-    if (!thread.isInterrupted()) {
         thread.interrupt();
-    }
 }
     }
 }
