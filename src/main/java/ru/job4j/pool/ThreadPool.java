@@ -31,7 +31,7 @@ for (Thread thread: threads) {
 }
     }
 
-    public class MyRunnable extends Thread{
+    public class MyRunnable extends Thread {
       private   SimpleBlockinqQueue<Runnable> queue;
       private Runnable task;
 
