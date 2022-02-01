@@ -39,7 +39,7 @@ public class ParallelSearch extends RecursiveTask<Integer> {
             }
         }
         ParallelSearch leftHalf = new ParallelSearch(array, min, mid,  index);
-        ParallelSearch rightHalf = new ParallelSearch(array, mid +1, max, index);
+        ParallelSearch rightHalf = new ParallelSearch(array, mid + 1, max, index);
 leftHalf.fork();
 rightHalf.fork();
 
@@ -50,8 +50,10 @@ rightHalf.fork();
     }
 
     public static void main(String[] args) {
-        int[] masssiv = new int[]{2, 5, 7, 12 ,29, 75, 78, 90, 4, 128, 50, 0, 32, 22, 19, 78, 21, 14, 16, 77};
+        int[] masssiv = new int[]{2, 5, 7, 12, 29, 75, 78, 90, 4, 128, 50,
+                0, 32, 22, 19, 78, 21, 14, 16, 77};
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        System.out.println(forkJoinPool.invoke(new ParallelSearch(masssiv, 0, masssiv.length - 1, 6)));
+        System.out.println(forkJoinPool
+                .invoke(new ParallelSearch(masssiv, 0, masssiv.length - 1, 6)));
     }
 }
