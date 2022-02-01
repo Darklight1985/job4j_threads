@@ -14,14 +14,19 @@ public class EmailNotification {
 
      public void emailTo(User user) {
          pool.submit(() -> {
-            String subject = "Notification {" + user.getUsername() + "} to email {" + user.getEmail() + "}";
-             String body = "Add a new event to {" + user.getUsername() + "}";
-
+            String subject = "Notification {"
+                    + user.getUsername()
+                    + "} to email {"
+                    + user.getEmail() + "}";
+             String body = "Add a new event to {"
+                     + user.getUsername() + "}";
              send(subject, body, user.getEmail());
          });
      }
 
-     public void send(String subject, String body, String email) {}
+     public void send(String subject, String body, String email) {
+
+     }
 
     public void close() {
          pool.shutdown();
@@ -33,6 +38,4 @@ public class EmailNotification {
              }
          }
      }
-
-
 }
