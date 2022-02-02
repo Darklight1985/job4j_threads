@@ -12,34 +12,27 @@ public class ThreadPool {
 
     public ThreadPool() {
         this.size = Runtime.getRuntime().availableProcessors();
+        Runnable task = () -> {
+            try {
+                tasks.poll().run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
         for (int i = 0; i < size; i++) {
-            threads.add(new Thread(() -> {
-                Runnable task = null;
-                try {
-                   task = tasks.poll();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Потребитель забрал " + task);
-            }));
-        }
-        for (Thread thread: threads) {
+            Thread thread = new Thread(task);
+            threads.add(thread);
             thread.start();
         }
-
     }
 
-    public void work(Runnable job) {
-        try {
-            tasks.offer(job);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void work(Runnable job) throws InterruptedException {
+        tasks.offer(job);
     }
 
     public void shutdown() {
-for (Thread thread: threads) {
-        thread.interrupt();
-}
+        for (Thread thread : threads) {
+            thread.interrupt();
+        }
     }
 }
