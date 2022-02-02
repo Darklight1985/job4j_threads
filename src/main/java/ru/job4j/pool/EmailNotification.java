@@ -7,7 +7,6 @@ public class EmailNotification {
    private final ExecutorService pool = Executors.newFixedThreadPool(
             Runtime.getRuntime().availableProcessors());
 
-
      public void emailTo(User user) {
          pool.submit(() -> {
             String subject = "Notification {"
