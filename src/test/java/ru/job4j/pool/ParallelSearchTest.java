@@ -10,7 +10,7 @@ public class ParallelSearchTest {
     public void searchOne() {
         int[] masssiv = new int[]{2, 5, 7, 12, 29, 75, 78, 90, 4, 128, 50,
                 0, 32, 22, 19, 78, 21, 14, 16, 77};
-        int rsl = ParallelSearch.search(masssiv, 6);
+        int rsl = ParallelSearch.search();
         assertEquals(rsl, 78);
     }
 
@@ -29,4 +29,5 @@ public class ParallelSearchTest {
         int rsl = ParallelSearch.search(masssiv, 25);
         assertEquals(rsl, -1);
     }
+
 }

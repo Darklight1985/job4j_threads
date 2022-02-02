@@ -3,63 +3,50 @@ package ru.job4j.pool;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class ParallelSearch extends RecursiveTask<Integer> {
-    private final int[] array;
+public class ParallelSearch <T> extends RecursiveTask<Integer> {
+    private final T[] array;
     private int min;
     private int max;
-    private final int index;
+    private final T elem;
 
-    public ParallelSearch(int[] array, int min, int max, int index) {
+    public ParallelSearch(T[] array, int min, int max, T elem) {
         this.array = array;
         this.min = min;
         this.max = max;
-        this.index = index;
+        this.elem = elem;
     }
 
     @Override
     protected Integer compute() {
-
         if (max - min <= 10) {
             for (int i = min; i <= max; i++) {
-                if (i == index) {
-                    return array[i];
+                if (array[i].equals(elem)) {
+                    return i;
                 }
             }
             return -1;
         }
 
         int mid = (min + max) / 2;
-        if (mid == index) {
-            return array[mid];
-        } else {
-            if (mid < index) {
-                min = mid;
-            } else {
-                max = mid;
-            }
+        if (array[mid].equals(elem)) {
+            return mid;
         }
-        ParallelSearch leftHalf = new ParallelSearch(array, min, mid, index);
-        ParallelSearch rightHalf = new ParallelSearch(array, mid + 1, max, index);
+
+        ParallelSearch leftHalf = new ParallelSearch(array, min, mid, elem);
+        ParallelSearch rightHalf = new ParallelSearch(array, mid + 1, max, elem);
         leftHalf.fork();
         rightHalf.fork();
 
-        int left = leftHalf.join();
-        int right = rightHalf.join();
+        int left = (int) leftHalf.join();
+        int right = (int) rightHalf.join();
 
         return Math.max(left, right);
 
     }
 
-        public static Integer search(int[] array, int index) {
+       public static <T> int search(T [] array, T elem) {
            ForkJoinPool forkJoinPool = new ForkJoinPool();
-           return forkJoinPool.invoke(new ParallelSearch(array, 0, array.length - 1, index));
+           return (int) forkJoinPool.invoke(new ParallelSearch(array, 0, array.length - 1, elem));
         }
-
-    public static void main(String[] args) {
-        int[] masssiv = new int[]{2, 5, 7, 12, 29, 75, 78, 90, 4, 128, 50,
-                0, 32, 22, 19, 78, 21, 14, 16, 77};
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
-        System.out.println(forkJoinPool
-                .invoke(new ParallelSearch(masssiv, 0, masssiv.length - 1, 6)));
     }
-}
+
