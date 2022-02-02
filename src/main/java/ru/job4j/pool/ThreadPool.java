@@ -13,8 +13,20 @@ public class ThreadPool {
     public ThreadPool() {
         this.size = Runtime.getRuntime().availableProcessors();
         for (int i = 0; i < size; i++) {
-            threads.add(new MyRunnable(tasks));
+            threads.add(new Thread(() -> {
+                Runnable task = null;
+                try {
+                   task = tasks.poll();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Потребитель забрал " + task);
+            }));
         }
+        for (Thread thread: threads) {
+            thread.start();
+        }
+
     }
 
     public void work(Runnable job) {
@@ -29,25 +41,5 @@ public class ThreadPool {
 for (Thread thread: threads) {
         thread.interrupt();
 }
-    }
-
-    public class MyRunnable extends Thread {
-      private   SimpleBlockinqQueue<Runnable> queue;
-      private Runnable task;
-
-        public MyRunnable(SimpleBlockinqQueue queue) {
-            this.queue = queue;
-            new Thread(this, "Потребитель").start();
-        }
-
-        @Override
-        public void run() {
-            try {
-                this.task = queue.poll();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Потребитель забрал " + task);
-        }
     }
 }
