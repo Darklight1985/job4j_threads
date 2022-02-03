@@ -2,6 +2,7 @@ package ru.job4j.pool;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -50,35 +51,30 @@ public class RolColSum {
     }
 
     public static Sums[] asyncSum(int[][] matrix) throws ExecutionException, InterruptedException {
-        Map<Integer, CompletableFuture<Integer>> futures = new HashMap<>();
+        Map<Integer, CompletableFuture<Sums>> futures = new HashMap<>();
         Sums[] sums = new Sums[matrix.length];
         for (int i = 0; i < sums.length; i++) {
             sums[i] = new Sums();
-        }
-        for (int i = 0; i < sums.length * 2; i++) {
             futures.put(i, getTask(matrix, i));
         }
-        for (int i = 0; i < sums.length; i++) {
-            sums[i].rowSum = futures.get(i).get();
-            sums[i].colSum = futures.get(i + sums.length).get();
+        for (Integer key : futures.keySet()) {
+            sums[key] = futures.get(key).get();
         }
         return sums;
     }
 
-    public static CompletableFuture<Integer> getTask(int[][] data, int number) {
+    public static CompletableFuture<Sums> getTask(int[][] data, int number) {
         return CompletableFuture.supplyAsync(() -> {
-            int sum = 0;
-            if (number < data.length) {
-                for (int i = 0; i < data.length; i++) {
-                    sum += data[number][i];
-                }
-                return sum;
-            } else {
-                for (int i = 0; i < data.length; i++) {
-                    sum += data[i][number - data.length];
-                }
-                return sum;
+            Sums sums = new Sums();
+            int sumRow = 0;
+            int sumCol = 0;
+            for (int i = 0; i < data.length; i++) {
+                sumRow += data[number][i];
+                sumCol += data[i][number];
             }
+            sums.colSum = sumCol;
+            sums.rowSum = sumRow;
+            return sums;
         });
     }
 }
