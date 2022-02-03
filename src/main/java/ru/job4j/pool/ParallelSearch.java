@@ -28,17 +28,14 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
         }
 
         int mid = (min + max) / 2;
-        if (array[mid].equals(elem)) {
-            return mid;
-        }
 
-        ParallelSearch leftHalf = new ParallelSearch(array, min, mid, elem);
-        ParallelSearch rightHalf = new ParallelSearch(array, mid + 1, max, elem);
+        ParallelSearch<Integer> leftHalf = new ParallelSearch(array, min, mid, elem);
+        ParallelSearch<Integer> rightHalf = new ParallelSearch(array, mid + 1, max, elem);
         leftHalf.fork();
         rightHalf.fork();
 
-        int left = (int) leftHalf.join();
-        int right = (int) rightHalf.join();
+        int left = leftHalf.join();
+        int right = rightHalf.join();
 
         return Math.max(left, right);
 
@@ -46,7 +43,7 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
 
        public static <T> int search(T[] array, T elem) {
            ForkJoinPool forkJoinPool = new ForkJoinPool();
-           return (int) forkJoinPool.invoke(new ParallelSearch(array, 0, array.length - 1, elem));
+           return forkJoinPool.invoke(new ParallelSearch<T>(array, 0, array.length - 1, elem));
         }
     }
 
