@@ -16,7 +16,7 @@ public class ParallelSearchTest {
 
     @Test
     public void searchString() {
-        String[] masssiv = new String[]{"Abc", "Petr", "Dima","Vasya"};
+        String[] masssiv = new String[]{"Abc", "Petr", "Dima", "Vasya"};
         int rsl = ParallelSearch.search(masssiv, "Dima");
         assertEquals(rsl, 2);
     }
