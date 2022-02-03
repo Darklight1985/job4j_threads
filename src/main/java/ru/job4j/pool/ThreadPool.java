@@ -12,15 +12,14 @@ public class ThreadPool {
 
     public ThreadPool() {
         this.size = Runtime.getRuntime().availableProcessors();
-        Runnable task = () -> {
-            try {
-                tasks.poll().run();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        };
         for (int i = 0; i < size; i++) {
-            Thread thread = new Thread(task);
+            Thread thread = new Thread(() -> {
+                try {
+                    tasks.poll().run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
             threads.add(thread);
             thread.start();
         }
