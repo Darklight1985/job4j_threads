@@ -7,7 +7,7 @@ public class ConsoleProgress implements Runnable {
         char[] symbol = new char[] {'\\', '|', '/'};
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
