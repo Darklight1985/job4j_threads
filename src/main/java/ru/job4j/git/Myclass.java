@@ -5,5 +5,6 @@ public class Myclass {
         int chislo = 1 + 2;
         System.out.println("Что то посчитали " + chislo);
         System.out.println("Что то выводим");
+
     }
 }
