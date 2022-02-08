@@ -3,3 +3,4 @@ Educational project. Contains exercises for passing the Middle module in the cou
 You can contact me at the postal address darklight1985@mail.ru
 
 Объединение зафиксированных изменений
+А это второе изменение
